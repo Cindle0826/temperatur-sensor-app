@@ -1,0 +1,76 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "9a6e91334e533c9bda92c24d1c08072b",
+    "entities": [
+      {
+        "tableName": "temperature_records",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `pm1_0` REAL NOT NULL, `pm2_5` REAL NOT NULL, `pm10_0` REAL NOT NULL, `temperature` REAL NOT NULL, `humidity` REAL NOT NULL, `status` TEXT NOT NULL, `createTime` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pm10",
+            "columnName": "pm1_0",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pm25",
+            "columnName": "pm2_5",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pm100",
+            "columnName": "pm10_0",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "temperature",
+            "columnName": "temperature",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "humidity",
+            "columnName": "humidity",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createTime",
+            "columnName": "createTime",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9a6e91334e533c9bda92c24d1c08072b')"
+    ]
+  }
+}
