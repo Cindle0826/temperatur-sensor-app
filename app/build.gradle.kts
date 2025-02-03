@@ -1,3 +1,6 @@
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -22,10 +25,24 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
+            resValue("string", "temperature_sensor_app", "temperature_sensor_app")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
+            applicationVariants.all {
+                outputs.all {
+                    val output = this as com.android.build.gradle.internal.api.BaseVariantOutputImpl
+                    val localDate = LocalDate.now()
+                    val formattedDate = localDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"))
+                    output.outputFileName = "temperature_sensor_app_v${versionName}_${buildType.name}_${formattedDate}.apk"
+                }
+            }
+        }
+
+        debug {
+            resValue("string", "temperature_sensor_app_debug", "temperature_sensor_app_debug")
         }
     }
     compileOptions {

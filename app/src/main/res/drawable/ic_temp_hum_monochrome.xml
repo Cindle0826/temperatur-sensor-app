@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="108dp"
+        android:height="108dp"
+        android:viewportWidth="108"
+        android:viewportHeight="108">
+
+    <!-- 這裡放置你的單色圖示向量圖 -->
+    <!-- 只使用單一顏色（通常是黑色），系統會自動調整顏色 -->
+    <path
+            android:fillColor="#FF000000"
+            android:pathData="M15,13V5c0,-1.66 -1.34,-3 -3,-3S9,3.34 9,5v8c-1.21,0.91 -2,2.37 -2,4c0,2.76 2.24,5 5,5s5,-2.24 5,-5C17,15.37 16.21,13.91 15,13z" />
+</vector>

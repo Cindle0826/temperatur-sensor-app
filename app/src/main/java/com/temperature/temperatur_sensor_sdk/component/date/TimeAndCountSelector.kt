@@ -44,97 +44,103 @@ fun TimeAndCountSelector(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(30.dp)
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // 起始時間
-        DateTimePicker(
-            label = "Start Time",
-            currentDateTime = startDateTime,
-            onDateTimeSelected = onStartDateTimeChanged
-        )
+        Column(
+            modifier = Modifier.fillMaxWidth(0.8f)  // 設定為螢幕寬度的 80%
+        ) {
+            // 起始時間
+            DateTimePicker(
+                label = "Start Time",
+                currentDateTime = startDateTime,
+                onDateTimeSelected = onStartDateTimeChanged
+            )
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
-        // 結束時間
-        DateTimePicker(
-            label = "End Time",
-            currentDateTime = endDateTime,
-            onDateTimeSelected = onEndDateTimeChanged
-        )
+            // 結束時間
+            DateTimePicker(
+                label = "End Time",
+                currentDateTime = endDateTime,
+                onDateTimeSelected = onEndDateTimeChanged
+            )
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
-        // 顯示筆數
-        Column {
-            // 使用 Material Design 的 ExposedDropdownMenuBox
-            var showDropdown by remember { mutableStateOf(false) }
-            val counts = listOf("10", "25", "50", "100")
+            // 顯示筆數
+            Column {
+                // 使用 Material Design 的 ExposedDropdownMenuBox
+                var showDropdown by remember { mutableStateOf(false) }
+                val counts = listOf("10", "25", "50", "100")
 
-            ExposedDropdownMenuBox(
-                expanded = showDropdown,
-                onExpandedChange = { showDropdown = !showDropdown }
-            ) {
-                OutlinedTextField(
-                    value = selectedCount,
-                    onValueChange = { },
-                    readOnly = true,
-                    modifier = Modifier
-                        .menuAnchor(type = MenuAnchorType.PrimaryEditable, enabled = true)
-                        .fillMaxWidth(),
-                    label = { Text("Selected Count") },
-                    trailingIcon = {
-                        Icon(
-                            imageVector = if (showDropdown)
-                                Icons.Filled.KeyboardArrowUp
-                            else
-                                Icons.Filled.KeyboardArrowDown,
-                            contentDescription = "Selected Count"
-                        )
-                    },
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = MaterialTheme.colorScheme.primary,
-                        unfocusedBorderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
-                        cursorColor = MaterialTheme.colorScheme.primary
-                    )
-                )
-
-                // 下拉選單
-                ExposedDropdownMenu(
+                ExposedDropdownMenuBox(
                     expanded = showDropdown,
-                    onDismissRequest = { showDropdown = false }
+                    onExpandedChange = { showDropdown = !showDropdown }
                 ) {
-                    counts.forEach { count ->
-                        DropdownMenuItem(
-                            text = { Text(count) },
-                            onClick = {
-                                onCountSelected(count)
-                                showDropdown = false
-                            }
+                    OutlinedTextField(
+                        value = selectedCount,
+                        onValueChange = { },
+                        readOnly = true,
+                        modifier = Modifier
+                            .menuAnchor(type = MenuAnchorType.PrimaryEditable, enabled = true)
+                            .fillMaxWidth(),
+                        label = { Text("Selected Count") },
+                        trailingIcon = {
+                            Icon(
+                                imageVector = if (showDropdown)
+                                    Icons.Filled.KeyboardArrowUp
+                                else
+                                    Icons.Filled.KeyboardArrowDown,
+                                contentDescription = "Selected Count"
+                            )
+                        },
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = MaterialTheme.colorScheme.primary,
+                            unfocusedBorderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                            cursorColor = MaterialTheme.colorScheme.primary
                         )
+                    )
+
+                    // 下拉選單
+                    ExposedDropdownMenu(
+                        expanded = showDropdown,
+                        onDismissRequest = { showDropdown = false }
+                    ) {
+                        counts.forEach { count ->
+                            DropdownMenuItem(
+                                text = { Text(count) },
+                                onClick = {
+                                    onCountSelected(count)
+                                    showDropdown = false
+                                }
+                            )
+                        }
                     }
                 }
             }
-        }
 
-        Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        // 查詢按鈕
-        if (onQueryClicked != null) {
-            Button(
-                onClick = onQueryClicked,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.CenterHorizontally),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF3F51B5),
-                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                ),
-            ) {
-                Text(
-                    text = "查詢",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.White
-                )
+            // 查詢按鈕
+            if (onQueryClicked != null) {
+                Button(
+                    onClick = onQueryClicked,
+                    modifier = Modifier
+                        .fillMaxWidth(0.8f)
+                        .align(Alignment.CenterHorizontally)
+                        .height(48.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF3F51B5),
+                        contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    ),
+                ) {
+                    Text(
+                        text = "查詢",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.White
+                    )
+                }
             }
         }
     }
