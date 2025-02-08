@@ -356,6 +356,12 @@ class BluetoothViewModel(
         }
     }
 
+    fun updateBluetoothState(newState: BluetoothState) {
+        viewModelScope.launch {
+            _state.value = newState
+        }
+    }
+
     override fun onCleared() {
         Log.d("onCleared", "藍芽清除")
     }
