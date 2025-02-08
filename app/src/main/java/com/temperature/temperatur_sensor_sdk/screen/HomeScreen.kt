@@ -1,5 +1,6 @@
 package com.temperature.temperatur_sensor_sdk.screen
 
+import android.app.Application
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,19 +17,39 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.temperature.temperatur_sensor_sdk.TemperatureDatabase
+import com.temperature.temperatur_sensor_sdk.component.bluetooth.BluetoothState
+import com.temperature.temperatur_sensor_sdk.component.bluetooth.BluetoothViewModelSingleton
+import kotlinx.coroutines.delay
 
 @Composable
 fun HomeScreen() {
+
+    val context = LocalContext.current
+    val viewModel = remember(context) {
+        BluetoothViewModelSingleton.getInstance(context.applicationContext as Application)
+    }
+
     val dao = TemperatureDatabase.dao
     val latestRecord by dao.getLatestRecord().collectAsState(initial = null)
+    val bluetoothState by viewModel.state.collectAsState()
+
+
+    LaunchedEffect(Unit) {
+        while (true) {
+            delay(1000)
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -55,7 +76,7 @@ fun HomeScreen() {
             ) {
                 // PM1.0 卡片
                 DataCard(
-                    title = "可吸入顆粒物1.0",
+                    title = "PM 1.0",
                     value = latestRecord?.pm10?.toString() ?: "-- ",
                     unit = "微克/立方米",
                     cardColor = CardColor.Purple
@@ -79,7 +100,7 @@ fun HomeScreen() {
                 // PM10 卡片
                 DataCard(
                     title = "PM10",
-                    value = latestRecord?.pm10?.toString() ?: "-- ",
+                    value = latestRecord?.pm100?.toString() ?: "-- ",
                     unit = "微克/立方米",
                     cardColor = CardColor.Green
                 )
@@ -109,7 +130,7 @@ fun HomeScreen() {
 
                 // 地址卡片
                 DataCard(
-                    title = "地位",
+                    title = "狀態",
                     value = latestRecord?.status ?: "-- ",
                     unit = "",
                     cardColor = CardColor.Gray
@@ -118,7 +139,15 @@ fun HomeScreen() {
         }
         // 藍牙狀態 - 放置在左下角
         Text(
-            text = "藍牙狀態：未連接",
+            text = "藍牙狀態：${
+                when (bluetoothState) {
+                    BluetoothState.Connected -> "已連接"
+                    BluetoothState.Disabled -> "未啟用"
+                    BluetoothState.Ready -> "就緒"
+                    BluetoothState.Scanning -> "掃描中"
+                    else -> "未啟用"
+                }
+            }",
             modifier = Modifier
                 .align(Alignment.BottomStart)
                 .padding(bottom = 16.dp)

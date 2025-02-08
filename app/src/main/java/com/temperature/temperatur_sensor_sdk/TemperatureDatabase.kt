@@ -6,13 +6,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.temperature.temperatur_sensor_sdk.convert.DateTimeConverter
 import com.temperature.temperatur_sensor_sdk.dao.TemperatureDao
 import com.temperature.temperatur_sensor_sdk.entity.TemperatureRecord
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
 @Database(entities = [TemperatureRecord::class], version = 1)
@@ -34,17 +30,17 @@ abstract class TemperatureDatabase : RoomDatabase() {
 
         private fun buildDatabase(context: Context) =
             Room.databaseBuilder(context, TemperatureDatabase::class.java, "Temperature-database")
-                .addCallback(object : Callback() {
-                    override fun onCreate(db: SupportSQLiteDatabase) {
-                        super.onCreate(db)
-                        // 當數據庫創建時插入多筆假資料
-                        CoroutineScope(Dispatchers.IO).launch {
-                            val dao = invoke(context).temperatureDao()
-                            val fakeData = generateFakeData()
-                            dao.insertTemperatureRecords(fakeData)
-                        }
-                    }
-                })
+//                .addCallback(object : Callback() {
+//                    override fun onCreate(db: SupportSQLiteDatabase) {
+//                        super.onCreate(db)
+//                        // 當數據庫創建時插入多筆假資料
+//                        CoroutineScope(Dispatchers.IO).launch {
+//                            val dao = invoke(context).temperatureDao()
+//                            val fakeData = generateFakeData()
+//                            dao.insertTemperatureRecords(fakeData)
+//                        }
+//                    }
+//                })
                 .build()
 
     }
@@ -53,6 +49,7 @@ abstract class TemperatureDatabase : RoomDatabase() {
 }
 
 // create fake data
+@Suppress("unused")
 private fun generateFakeData(): List<TemperatureRecord> {
     val fakeData = mutableListOf<TemperatureRecord>()
     for (i in 1..30) {

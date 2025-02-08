@@ -10,8 +10,12 @@ import java.time.LocalDateTime
 
 @Dao
 interface TemperatureDao {
-    @Query("SELECT * FROM temperature_records ORDER BY createTime DESC LIMIT 1")
+    @Query("SELECT * FROM temperature_records ORDER BY id DESC LIMIT 1")
     fun getLatestRecord(): Flow<TemperatureRecord?>
+
+    // 添加刷新方法
+    @Query("SELECT * FROM temperature_records WHERE 1=1 LIMIT 1")
+    suspend fun refreshLatestRecord(): TemperatureRecord?
 
     @Query("SELECT * FROM temperature_records WHERE createTime BETWEEN :startDateTime AND :endDateTime ORDER BY createTime DESC LIMIT :limit")
     fun getLatestPMRecords(startDateTime: String, endDateTime: String, limit: Int): Flow<List<TemperatureRecord>>

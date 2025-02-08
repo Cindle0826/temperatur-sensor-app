@@ -44,9 +44,10 @@ fun CommonDialog(
                     style = MaterialTheme.typography.bodyMedium
                 )
             },
-            confirmButton = {
+            dismissButton = {
                 TextButton(
                     onClick = onConfirm,
+                    // 添加點擊範圍
                     modifier = Modifier.padding(horizontal = 8.dp)
                 ) {
                     Text(
@@ -55,10 +56,9 @@ fun CommonDialog(
                     )
                 }
             },
-            dismissButton = {
+            confirmButton = {
                 TextButton(
                     onClick = onDismiss,
-                    // 添加點擊範圍
                     modifier = Modifier.padding(horizontal = 8.dp)
                 ) {
                     Text(

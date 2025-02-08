@@ -99,4 +99,8 @@ dependencies {
     implementation(libs.mpandroidchart)
 
     implementation(libs.datetime)
+
+    implementation(libs.androidx.bluetooth)
+
+    implementation(libs.gson)
 }
